@@ -1,61 +1,62 @@
-import { ArrowRight, Download, Github, Linkedin, Sparkles } from "lucide-react";
+import { ArrowRight, Download, Github, Linkedin } from "lucide-react";
+import profile from "@/assets/profile.jpg";
 
 export function Hero() {
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-center bg-hero overflow-hidden pt-24"
+      className="relative min-h-[92vh] flex items-center pt-24 overflow-hidden"
     >
-      <div className="absolute inset-0 grid-bg opacity-60 pointer-events-none" />
-      <div className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full bg-primary/10 blur-3xl animate-glow pointer-events-none" />
-      <div className="absolute -bottom-32 -left-32 w-[500px] h-[500px] rounded-full bg-accent/10 blur-3xl animate-glow pointer-events-none" />
+      <div className="absolute inset-0 bg-hero opacity-80 pointer-events-none" />
 
-      <div className="relative max-w-6xl mx-auto px-6 py-20 w-full">
-        <div className="max-w-3xl animate-fade-up">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-border bg-card/50 backdrop-blur text-xs text-muted-foreground mb-8">
-            <Sparkles size={14} className="text-primary" />
-            Available for opportunities
+      <div className="relative max-w-5xl mx-auto px-6 py-20 w-full">
+        <div className="grid md:grid-cols-[auto_1fr] items-center gap-10 md:gap-14 animate-fade-up">
+          <div className="relative mx-auto md:mx-0">
+            <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary/40 to-accent/40 blur-2xl" />
+            <img
+              src={profile}
+              alt="Noluthando Masemula"
+              width={192}
+              height={192}
+              className="relative w-40 h-40 md:w-48 md:h-48 rounded-full object-cover border-2 border-border shadow-card"
+            />
           </div>
 
-          <p className="font-mono text-sm text-primary mb-4">Hi, my name is</p>
-          <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight leading-[1.05]">
-            Noluthando<br />
-            <span className="text-gradient">Masemula.</span>
-          </h1>
-          <h2 className="mt-4 text-2xl sm:text-3xl md:text-4xl font-semibold text-muted-foreground tracking-tight">
-            I build, automate &amp; deploy.
-          </h2>
-          <p className="mt-6 text-base sm:text-lg text-muted-foreground max-w-2xl leading-relaxed">
-            Software developer studying{" "}
-            <span className="text-foreground">AI Foundations</span> &amp;{" "}
-            <span className="text-foreground">Prompt Engineering</span>, on a
-            mission to become a <span className="text-foreground">DevOps Engineer</span>.
-            I love turning ideas into reliable, scalable systems.
-          </p>
+          <div className="text-center md:text-left">
+            <p className="font-mono text-sm text-primary mb-3">Hi, I'm</p>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-[1.05]">
+              Noluthando Masemula
+            </h1>
+            <h2 className="mt-4 text-lg sm:text-xl md:text-2xl text-muted-foreground font-medium">
+              Software Developer · AI &amp; Tech Enthusiast
+            </h2>
+            <p className="mt-5 text-base text-muted-foreground max-w-xl mx-auto md:mx-0 leading-relaxed">
+              I design and build modern web applications with a focus on clean
+              code, thoughtful UX, and emerging AI technologies.
+            </p>
 
-          <div className="mt-10 flex flex-wrap items-center gap-3">
-            <a
-              href="#projects"
-              className="group inline-flex items-center gap-2 px-6 py-3 rounded-md bg-primary text-primary-foreground font-medium hover:opacity-90 transition glow"
-            >
-              View my work
-              <ArrowRight size={16} className="group-hover:translate-x-0.5 transition-transform" />
-            </a>
-            <a
-              href="/cv-noluthando-masemula.pdf"
-              download
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-md border border-border bg-card/50 backdrop-blur text-foreground font-medium hover:bg-card transition"
-            >
-              <Download size={16} />
-              Download CV
-            </a>
-            <div className="flex items-center gap-2 ml-2">
+            <div className="mt-8 flex flex-wrap items-center justify-center md:justify-start gap-3">
+              <a
+                href="#projects"
+                className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-md bg-primary text-primary-foreground font-medium hover:opacity-90 transition"
+              >
+                View my work
+                <ArrowRight size={16} className="group-hover:translate-x-0.5 transition-transform" />
+              </a>
+              <a
+                href="/cv-noluthando-masemula.pdf"
+                download
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md border border-border bg-card/50 hover:bg-card transition font-medium"
+              >
+                <Download size={16} />
+                Download CV
+              </a>
               <a
                 href="https://github.com/"
                 target="_blank"
                 rel="noreferrer"
                 aria-label="GitHub"
-                className="p-3 rounded-md border border-border text-muted-foreground hover:text-primary hover:border-primary transition"
+                className="p-2.5 rounded-md border border-border text-muted-foreground hover:text-primary hover:border-primary transition"
               >
                 <Github size={18} />
               </a>
@@ -64,7 +65,7 @@ export function Hero() {
                 target="_blank"
                 rel="noreferrer"
                 aria-label="LinkedIn"
-                className="p-3 rounded-md border border-border text-muted-foreground hover:text-primary hover:border-primary transition"
+                className="p-2.5 rounded-md border border-border text-muted-foreground hover:text-primary hover:border-primary transition"
               >
                 <Linkedin size={18} />
               </a>
