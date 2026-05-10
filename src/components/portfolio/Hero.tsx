@@ -1,7 +1,12 @@
-import { ArrowRight, Download, Github, Linkedin } from "lucide-react";
-import profile from "@/assets/profile.jpg";
+import { ArrowRight, Download, Github, Linkedin, Pencil } from "lucide-react";
+import { useState } from "react";
+import { useProfile } from "@/hooks/use-profile";
+import { EditProfileDialog } from "./EditProfileDialog";
 
 export function Hero() {
+  const { profile } = useProfile();
+  const [editing, setEditing] = useState(false);
+
   return (
     <section
       id="home"
@@ -11,28 +16,34 @@ export function Hero() {
 
       <div className="relative max-w-5xl mx-auto px-6 py-20 w-full">
         <div className="grid md:grid-cols-[auto_1fr] items-center gap-10 md:gap-14 animate-fade-up">
-          <div className="relative mx-auto md:mx-0">
+          <div className="relative mx-auto md:mx-0 group">
             <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary/40 to-accent/40 blur-2xl" />
             <img
-              src={profile}
-              alt="Noluthando Masemula"
+              src={profile.photo}
+              alt={profile.name}
               width={192}
               height={192}
               className="relative w-40 h-40 md:w-48 md:h-48 rounded-full object-cover border-2 border-border shadow-card"
             />
+            <button
+              onClick={() => setEditing(true)}
+              aria-label="Edit profile"
+              className="absolute bottom-1 right-1 p-2 rounded-full bg-primary text-primary-foreground border border-background shadow-md hover:opacity-90 transition"
+            >
+              <Pencil size={14} />
+            </button>
           </div>
 
           <div className="text-center md:text-left">
             <p className="font-mono text-sm text-primary mb-3">Hi, I'm</p>
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-[1.05]">
-              Noluthando Masemula
+              {profile.name}
             </h1>
             <h2 className="mt-4 text-lg sm:text-xl md:text-2xl text-muted-foreground font-medium">
-              Software Developer · AI &amp; Tech Enthusiast
+              {profile.title}
             </h2>
             <p className="mt-5 text-base text-muted-foreground max-w-xl mx-auto md:mx-0 leading-relaxed">
-              I design and build modern web applications with a focus on clean
-              code, thoughtful UX, and emerging AI technologies.
+              {profile.tagline}
             </p>
 
             <div className="mt-8 flex flex-wrap items-center justify-center md:justify-start gap-3">
@@ -51,6 +62,13 @@ export function Hero() {
                 <Download size={16} />
                 Download CV
               </a>
+              <button
+                onClick={() => setEditing(true)}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md border border-border bg-card/50 hover:bg-card transition font-medium"
+              >
+                <Pencil size={16} />
+                Edit profile
+              </button>
               <a
                 href="https://github.com/"
                 target="_blank"
@@ -73,6 +91,8 @@ export function Hero() {
           </div>
         </div>
       </div>
+
+      <EditProfileDialog open={editing} onOpenChange={setEditing} />
     </section>
   );
 }
