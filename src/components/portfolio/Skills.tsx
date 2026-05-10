@@ -4,34 +4,31 @@ const groups = [
     items: ["JavaScript", "TypeScript", "Python", "HTML", "CSS", "SQL"],
   },
   {
-    title: "Frameworks & Libraries",
+    title: "Frameworks",
     items: ["React", "Node.js", "Tailwind CSS", "Express"],
   },
   {
-    title: "DevOps & Cloud",
-    items: ["Git", "GitHub Actions", "Docker", "Linux", "CI/CD", "AWS (learning)"],
+    title: "Tools",
+    items: ["Git", "GitHub", "VS Code", "Figma", "Vite"],
   },
   {
-    title: "AI & Tools",
-    items: ["Prompt Engineering", "OpenAI APIs", "VS Code", "Figma"],
+    title: "AI & Learning",
+    items: ["Prompt Engineering", "OpenAI APIs", "AI Foundations"],
   },
 ];
 
 export function Skills() {
   return (
-    <section id="skills" className="relative py-28 bg-card/30">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="flex items-end justify-between mb-12 flex-wrap gap-4">
-          <div>
-            <p className="font-mono text-sm text-primary mb-2">02. Skills</p>
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">
-              Tools I work with
-            </h2>
-          </div>
-          <div className="h-px flex-1 bg-border max-w-xs hidden md:block" />
+    <section id="skills" className="relative py-24 bg-card/30">
+      <div className="max-w-5xl mx-auto px-6">
+        <div className="text-center mb-12">
+          <p className="font-mono text-sm text-primary mb-3">Skills</p>
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">
+            Tools I work with
+          </h2>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {groups.map((g) => (
             <div
               key={g.title}
