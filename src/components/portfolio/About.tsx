@@ -1,4 +1,14 @@
+import { useProfile } from "@/hooks/use-profile";
+
 export function About() {
+  const { profile } = useProfile();
+
+  // Render bio as paragraphs, splitting on blank lines or single newlines.
+  const paragraphs = profile.bio
+    .split(/\n\s*\n|\n/g)
+    .map((p) => p.trim())
+    .filter(Boolean);
+
   return (
     <section id="about" className="relative py-24">
       <div className="max-w-3xl mx-auto px-6 text-center">
@@ -7,25 +17,10 @@ export function About() {
           A bit about me
         </h2>
 
-        <div className="space-y-5 text-muted-foreground leading-relaxed text-base sm:text-lg">
-          <p>
-            I'm <span className="text-foreground font-medium">Noluthando Masemula</span>,
-            a software developer who enjoys turning ideas into clean,
-            reliable products that people actually love using.
-          </p>
-          <p>
-            My focus is modern web development with{" "}
-            <span className="text-foreground">React</span>,{" "}
-            <span className="text-foreground">TypeScript</span> and{" "}
-            <span className="text-foreground">Node.js</span>. I'm also deeply
-            curious about <span className="text-foreground">AI</span> and{" "}
-            <span className="text-foreground">prompt engineering</span>, and how
-            they shape the next generation of software.
-          </p>
-          <p>
-            I believe the best code is simple, the best designs are intentional,
-            and the best engineers never stop learning.
-          </p>
+        <div className="space-y-5 text-muted-foreground leading-relaxed text-base sm:text-lg text-left sm:text-center">
+          {paragraphs.map((p, i) => (
+            <p key={i}>{p}</p>
+          ))}
         </div>
       </div>
     </section>
