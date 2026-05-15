@@ -28,6 +28,7 @@ const EMPTY = {
   github: "",
   demo: "",
   image: "" as string | undefined,
+  caseStudy: "",
 };
 
 export function EditProjectDialog({ open, onOpenChange, editing }: Props) {
@@ -45,6 +46,7 @@ export function EditProjectDialog({ open, onOpenChange, editing }: Props) {
         github: editing.github ?? "",
         demo: editing.demo ?? "",
         image: editing.image,
+        caseStudy: editing.caseStudy ?? "",
       });
     } else {
       setDraft(EMPTY);
@@ -76,6 +78,7 @@ export function EditProjectDialog({ open, onOpenChange, editing }: Props) {
       github: draft.github.trim() || undefined,
       demo: draft.demo.trim() || undefined,
       image: draft.image || undefined,
+      caseStudy: draft.caseStudy.trim() || undefined,
     };
     if (editing) {
       update(editing.id, payload);
@@ -193,6 +196,18 @@ export function EditProjectDialog({ open, onOpenChange, editing }: Props) {
               onChange={(e) => setDraft({ ...draft, demo: e.target.value })}
               placeholder="https://..."
             />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="p-case-study">Case study</Label>
+            <Textarea
+              id="p-case-study"
+              rows={6}
+              value={draft.caseStudy}
+              onChange={(e) => setDraft({ ...draft, caseStudy: e.target.value })}
+              placeholder="Describe the problem, your approach, and the outcome..."
+            />
+            <p className="text-xs text-muted-foreground">Optional. Shown as a detailed project write-up.</p>
           </div>
         </div>
 
