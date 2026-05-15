@@ -1,8 +1,29 @@
-import { Github } from "lucide-react";
-import { projects } from "@/data/projects";
+import { useState } from "react";
+import { Plus, RotateCcw } from "lucide-react";
+import { useProjects, type StoredProject } from "@/hooks/use-projects";
 import { ProjectCard } from "./ProjectCard";
+import { EditProjectDialog } from "./EditProjectDialog";
+import { Button } from "@/components/ui/button";
 
 export function Projects() {
+  const { projects, remove, reset } = useProjects();
+  const [open, setOpen] = useState(false);
+  const [editing, setEditing] = useState<StoredProject | null>(null);
+
+  const openAdd = () => {
+    setEditing(null);
+    setOpen(true);
+  };
+
+  const openEdit = (p: StoredProject) => {
+    setEditing(p);
+    setOpen(true);
+  };
+
+  const onDelete = (p: StoredProject) => {
+    if (confirm(`Delete "${p.title}"?`)) remove(p.id);
+  };
+
   return (
     <section id="projects" className="relative py-24">
       <div className="max-w-6xl mx-auto px-6">
@@ -12,28 +33,47 @@ export function Projects() {
             Things I've been building
           </h2>
           <p className="mt-3 text-muted-foreground max-w-xl mx-auto">
-            A small selection of projects. More on the way.
+            Upload your own projects — add a title, description, tech stack, links, and a cover
+            image.
           </p>
+
+          <div className="mt-6 flex items-center justify-center gap-2">
+            <Button onClick={openAdd}>
+              <Plus size={16} />
+              Add project
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => {
+                if (confirm("Reset projects to defaults? This will remove your additions."))
+                  reset();
+              }}
+            >
+              <RotateCcw size={14} />
+              Reset
+            </Button>
+          </div>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((p) => (
-            <ProjectCard key={p.title} project={p} />
-          ))}
-        </div>
-
-        <div className="mt-12 text-center">
-          <a
-            href="https://github.com/"
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md border border-border hover:border-primary hover:text-primary transition text-sm"
-          >
-            <Github size={16} />
-            See more on GitHub
-          </a>
-        </div>
+        {projects.length === 0 ? (
+          <div className="text-center py-16 border border-dashed border-border rounded-xl">
+            <p className="text-muted-foreground mb-4">No projects yet.</p>
+            <Button onClick={openAdd}>
+              <Plus size={16} />
+              Add your first project
+            </Button>
+          </div>
+        ) : (
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {projects.map((p) => (
+              <ProjectCard key={p.id} project={p} onEdit={openEdit} onDelete={onDelete} />
+            ))}
+          </div>
+        )}
       </div>
+
+      <EditProjectDialog open={open} onOpenChange={setOpen} editing={editing} />
     </section>
   );
 }
