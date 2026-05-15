@@ -17,6 +17,7 @@ export type Project = {
   github?: string;
   demo?: string;
   image?: string;
+  caseStudy?: string;
 };
 
 export const projects: Project[] = [
