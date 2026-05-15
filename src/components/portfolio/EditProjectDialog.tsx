@@ -197,6 +197,18 @@ export function EditProjectDialog({ open, onOpenChange, editing }: Props) {
               placeholder="https://..."
             />
           </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="p-case-study">Case study</Label>
+            <Textarea
+              id="p-case-study"
+              rows={6}
+              value={draft.caseStudy}
+              onChange={(e) => setDraft({ ...draft, caseStudy: e.target.value })}
+              placeholder="Describe the problem, your approach, and the outcome..."
+            />
+            <p className="text-xs text-muted-foreground">Optional. Shown as a detailed project write-up.</p>
+          </div>
         </div>
 
         <DialogFooter className="gap-2 sm:gap-2">
