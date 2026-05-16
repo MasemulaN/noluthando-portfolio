@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { useProjects, type StoredProject } from "@/hooks/use-projects";
+import { useProjects, uploadProjectImage, type StoredProject } from "@/hooks/use-projects";
 import { toast } from "sonner";
 
 type Props = {
