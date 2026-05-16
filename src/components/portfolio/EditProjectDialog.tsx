@@ -152,9 +152,10 @@ export function EditProjectDialog({ open, onOpenChange, editing }: Props) {
                 variant="outline"
                 size="sm"
                 onClick={() => fileRef.current?.click()}
+                disabled={uploading}
               >
                 <Upload size={14} />
-                Upload
+                {uploading ? "Uploading…" : "Upload"}
               </Button>
             </div>
           </div>
