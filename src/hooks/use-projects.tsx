@@ -90,7 +90,15 @@ export function ProjectsProvider({ children }: { children: ReactNode }) {
   };
 
   const update: Ctx["update"] = async (id, patch) => {
-    const dbPatch: Record<string, unknown> = {};
+    const dbPatch: Partial<{
+      title: string;
+      description: string;
+      tech: string[];
+      github: string | null;
+      demo: string | null;
+      image_url: string | null;
+      case_study: string | null;
+    }> = {};
     if (patch.title !== undefined) dbPatch.title = patch.title;
     if (patch.description !== undefined) dbPatch.description = patch.description;
     if (patch.tech !== undefined) dbPatch.tech = patch.tech;
