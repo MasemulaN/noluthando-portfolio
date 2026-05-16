@@ -34,6 +34,8 @@ const EMPTY = {
 export function EditProjectDialog({ open, onOpenChange, editing }: Props) {
   const { add, update } = useProjects();
   const [draft, setDraft] = useState(EMPTY);
+  const [uploading, setUploading] = useState(false);
+  const [saving, setSaving] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -53,17 +55,23 @@ export function EditProjectDialog({ open, onOpenChange, editing }: Props) {
     }
   }, [open, editing]);
 
-  const onPhoto = (file: File) => {
+  const onPhoto = async (file: File) => {
     if (file.size > 3 * 1024 * 1024) {
       toast.error("Image must be under 3MB");
       return;
     }
-    const reader = new FileReader();
-    reader.onload = () => setDraft((d) => ({ ...d, image: String(reader.result) }));
-    reader.readAsDataURL(file);
+    setUploading(true);
+    try {
+      const url = await uploadProjectImage(file);
+      setDraft((d) => ({ ...d, image: url }));
+    } catch {
+      toast.error("Image upload failed");
+    } finally {
+      setUploading(false);
+    }
   };
 
-  const save = () => {
+  const save = async () => {
     if (!draft.title.trim()) {
       toast.error("Title is required");
       return;
@@ -80,14 +88,19 @@ export function EditProjectDialog({ open, onOpenChange, editing }: Props) {
       image: draft.image || undefined,
       caseStudy: draft.caseStudy.trim() || undefined,
     };
-    if (editing) {
-      update(editing.id, payload);
-      toast.success("Project updated");
-    } else {
-      add(payload);
-      toast.success("Project added");
+    setSaving(true);
+    try {
+      if (editing) {
+        await update(editing.id, payload);
+        toast.success("Project updated");
+      } else {
+        await add(payload);
+        toast.success("Project added");
+      }
+      onOpenChange(false);
+    } finally {
+      setSaving(false);
     }
-    onOpenChange(false);
   };
 
   return (
