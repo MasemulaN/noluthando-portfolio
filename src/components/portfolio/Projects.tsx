@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { Plus, RotateCcw } from "lucide-react";
+import { Plus } from "lucide-react";
 import { useProjects, type StoredProject } from "@/hooks/use-projects";
 import { ProjectCard } from "./ProjectCard";
 import { EditProjectDialog } from "./EditProjectDialog";
 import { Button } from "@/components/ui/button";
 
 export function Projects() {
-  const { projects, remove, reset } = useProjects();
+  const { projects, loading, remove } = useProjects();
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<StoredProject | null>(null);
 
@@ -34,7 +34,7 @@ export function Projects() {
           </h2>
           <p className="mt-3 text-muted-foreground max-w-xl mx-auto">
             Upload your own projects — add a title, description, tech stack, links, and a cover
-            image.
+            image. Saved permanently to your portfolio.
           </p>
 
           <div className="mt-6 flex items-center justify-center gap-2">
@@ -42,21 +42,12 @@ export function Projects() {
               <Plus size={16} />
               Add project
             </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => {
-                if (confirm("Reset projects to defaults? This will remove your additions."))
-                  reset();
-              }}
-            >
-              <RotateCcw size={14} />
-              Reset
-            </Button>
           </div>
         </div>
 
-        {projects.length === 0 ? (
+        {loading ? (
+          <div className="text-center py-16 text-muted-foreground">Loading projects…</div>
+        ) : projects.length === 0 ? (
           <div className="text-center py-16 border border-dashed border-border rounded-xl">
             <p className="text-muted-foreground mb-4">No projects yet.</p>
             <Button onClick={openAdd}>
