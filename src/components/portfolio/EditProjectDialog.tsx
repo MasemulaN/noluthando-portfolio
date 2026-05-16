@@ -229,8 +229,8 @@ export function EditProjectDialog({ open, onOpenChange, editing }: Props) {
           <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
             Cancel
           </Button>
-          <Button type="button" onClick={save}>
-            {editing ? "Save changes" : "Add project"}
+          <Button type="button" onClick={save} disabled={saving || uploading}>
+            {saving ? "Saving…" : editing ? "Save changes" : "Add project"}
           </Button>
         </DialogFooter>
       </DialogContent>
