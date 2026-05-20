@@ -29,6 +29,7 @@ const EMPTY = {
   demo: "",
   image: "" as string | undefined,
   caseStudy: "",
+  caseStudyImages: [] as string[],
 };
 
 export function EditProjectDialog({ open, onOpenChange, editing }: Props) {
