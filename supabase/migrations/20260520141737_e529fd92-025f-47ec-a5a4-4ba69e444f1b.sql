@@ -1,0 +1,1 @@
+ALTER TABLE public.projects ADD COLUMN IF NOT EXISTS case_study_images text[] NOT NULL DEFAULT '{}'::text[];
