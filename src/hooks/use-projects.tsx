@@ -11,6 +11,7 @@ export type StoredProject = {
   demo?: string;
   image?: string;
   caseStudy?: string;
+  caseStudyImages: string[];
 };
 
 type DbRow = {
@@ -22,6 +23,7 @@ type DbRow = {
   demo: string | null;
   image_url: string | null;
   case_study: string | null;
+  case_study_images: string[] | null;
 };
 
 const fromRow = (r: DbRow): StoredProject => ({
@@ -33,6 +35,7 @@ const fromRow = (r: DbRow): StoredProject => ({
   demo: r.demo ?? undefined,
   image: r.image_url ?? undefined,
   caseStudy: r.case_study ?? undefined,
+  caseStudyImages: r.case_study_images ?? [],
 });
 
 type Ctx = {
