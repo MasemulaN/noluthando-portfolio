@@ -38,6 +38,7 @@ export function EditProjectDialog({ open, onOpenChange, editing }: Props) {
   const [uploading, setUploading] = useState(false);
   const [saving, setSaving] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
+  const csFileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (!open) return;
