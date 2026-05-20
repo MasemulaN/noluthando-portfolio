@@ -11,6 +11,7 @@ export type StoredProject = {
   demo?: string;
   image?: string;
   caseStudy?: string;
+  caseStudyImages: string[];
 };
 
 type DbRow = {
@@ -22,6 +23,7 @@ type DbRow = {
   demo: string | null;
   image_url: string | null;
   case_study: string | null;
+  case_study_images: string[] | null;
 };
 
 const fromRow = (r: DbRow): StoredProject => ({
@@ -33,6 +35,7 @@ const fromRow = (r: DbRow): StoredProject => ({
   demo: r.demo ?? undefined,
   image: r.image_url ?? undefined,
   caseStudy: r.case_study ?? undefined,
+  caseStudyImages: r.case_study_images ?? [],
 });
 
 type Ctx = {
@@ -79,6 +82,7 @@ export function ProjectsProvider({ children }: { children: ReactNode }) {
         demo: p.demo ?? null,
         image_url: p.image ?? null,
         case_study: p.caseStudy ?? null,
+        case_study_images: p.caseStudyImages ?? [],
       })
       .select()
       .single();
@@ -98,6 +102,7 @@ export function ProjectsProvider({ children }: { children: ReactNode }) {
       demo: string | null;
       image_url: string | null;
       case_study: string | null;
+      case_study_images: string[];
     }> = {};
     if (patch.title !== undefined) dbPatch.title = patch.title;
     if (patch.description !== undefined) dbPatch.description = patch.description;
@@ -106,6 +111,7 @@ export function ProjectsProvider({ children }: { children: ReactNode }) {
     if (patch.demo !== undefined) dbPatch.demo = patch.demo ?? null;
     if (patch.image !== undefined) dbPatch.image_url = patch.image ?? null;
     if (patch.caseStudy !== undefined) dbPatch.case_study = patch.caseStudy ?? null;
+    if (patch.caseStudyImages !== undefined) dbPatch.case_study_images = patch.caseStudyImages;
     const { data, error } = await supabase
       .from("projects")
       .update(dbPatch)

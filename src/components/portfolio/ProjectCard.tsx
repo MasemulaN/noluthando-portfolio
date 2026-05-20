@@ -137,6 +137,26 @@ export function ProjectCard({ project, onEdit, onDelete }: Props) {
             <div className="text-sm leading-7 text-foreground whitespace-pre-wrap">
               {project.caseStudy}
             </div>
+            {project.caseStudyImages.length > 0 && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {project.caseStudyImages.map((url) => (
+                  <a
+                    key={url}
+                    href={url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="block aspect-[16/10] overflow-hidden rounded-lg border border-border"
+                  >
+                    <img
+                      src={url}
+                      alt="Case study"
+                      loading="lazy"
+                      className="w-full h-full object-cover hover:scale-105 transition-transform"
+                    />
+                  </a>
+                ))}
+              </div>
+            )}
             <div className="flex items-center gap-3 pt-2">
               {project.github && (
                 <a

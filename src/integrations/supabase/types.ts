@@ -17,6 +17,7 @@ export type Database = {
       projects: {
         Row: {
           case_study: string | null
+          case_study_images: string[]
           created_at: string
           demo: string | null
           description: string
@@ -30,6 +31,7 @@ export type Database = {
         }
         Insert: {
           case_study?: string | null
+          case_study_images?: string[]
           created_at?: string
           demo?: string | null
           description?: string
@@ -43,6 +45,7 @@ export type Database = {
         }
         Update: {
           case_study?: string | null
+          case_study_images?: string[]
           created_at?: string
           demo?: string | null
           description?: string
