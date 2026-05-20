@@ -73,6 +73,29 @@ export function EditProjectDialog({ open, onOpenChange, editing }: Props) {
     }
   };
 
+  const onCaseStudyPhotos = async (files: File[]) => {
+    const valid = files.filter((f) => {
+      if (f.size > 3 * 1024 * 1024) {
+        toast.error(`${f.name} is over 3MB`);
+        return false;
+      }
+      return true;
+    });
+    if (valid.length === 0) return;
+    setUploading(true);
+    try {
+      const urls = await Promise.all(valid.map((f) => uploadProjectImage(f)));
+      setDraft((d) => ({ ...d, caseStudyImages: [...d.caseStudyImages, ...urls] }));
+    } catch {
+      toast.error("Image upload failed");
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const removeCaseStudyImage = (url: string) =>
+    setDraft((d) => ({ ...d, caseStudyImages: d.caseStudyImages.filter((u) => u !== url) }));
+
   const save = async () => {
     if (!draft.title.trim()) {
       toast.error("Title is required");
@@ -89,6 +112,7 @@ export function EditProjectDialog({ open, onOpenChange, editing }: Props) {
       demo: draft.demo.trim() || undefined,
       image: draft.image || undefined,
       caseStudy: draft.caseStudy.trim() || undefined,
+      caseStudyImages: draft.caseStudyImages,
     };
     setSaving(true);
     try {
