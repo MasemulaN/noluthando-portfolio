@@ -50,6 +50,7 @@ export function EditProjectDialog({ open, onOpenChange, editing }: Props) {
         demo: editing.demo ?? "",
         image: editing.image,
         caseStudy: editing.caseStudy ?? "",
+        caseStudyImages: editing.caseStudyImages ?? [],
       });
     } else {
       setDraft(EMPTY);
