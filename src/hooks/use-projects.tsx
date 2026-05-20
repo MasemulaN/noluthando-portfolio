@@ -82,6 +82,7 @@ export function ProjectsProvider({ children }: { children: ReactNode }) {
         demo: p.demo ?? null,
         image_url: p.image ?? null,
         case_study: p.caseStudy ?? null,
+        case_study_images: p.caseStudyImages ?? [],
       })
       .select()
       .single();
