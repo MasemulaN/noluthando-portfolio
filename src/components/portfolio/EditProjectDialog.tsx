@@ -250,6 +250,54 @@ export function EditProjectDialog({ open, onOpenChange, editing }: Props) {
             />
             <p className="text-xs text-muted-foreground">Optional. Shown as a detailed project write-up.</p>
           </div>
+
+          <div className="space-y-2">
+            <Label>Case study images</Label>
+            {draft.caseStudyImages.length > 0 && (
+              <div className="grid grid-cols-3 gap-2">
+                {draft.caseStudyImages.map((url) => (
+                  <div key={url} className="relative">
+                    <img
+                      src={url}
+                      alt="Case study"
+                      className="w-full h-20 rounded-md object-cover border border-border"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeCaseStudyImage(url)}
+                      className="absolute -top-2 -right-2 bg-background border border-border rounded-full p-0.5"
+                      aria-label="Remove image"
+                    >
+                      <X size={12} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+            <input
+              ref={csFileRef}
+              type="file"
+              accept="image/*"
+              multiple
+              hidden
+              onChange={(e) => {
+                const files = Array.from(e.target.files ?? []);
+                if (files.length) onCaseStudyPhotos(files);
+                e.target.value = "";
+              }}
+            />
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => csFileRef.current?.click()}
+              disabled={uploading}
+            >
+              <Upload size={14} />
+              {uploading ? "Uploading…" : "Add images"}
+            </Button>
+            <p className="text-xs text-muted-foreground">Optional. Shown inside the case study.</p>
+          </div>
         </div>
 
         <DialogFooter className="gap-2 sm:gap-2">
