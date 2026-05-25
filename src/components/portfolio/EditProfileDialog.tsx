@@ -140,6 +140,18 @@ export function EditProfileDialog({ open, onOpenChange }: Props) {
           </div>
 
           <div className="space-y-2">
+            <Label htmlFor="email">Contact email</Label>
+            <Input
+              id="email"
+              type="email"
+              placeholder="you@example.com"
+              value={draft.email}
+              onChange={(e) => setDraft({ ...draft, email: e.target.value })}
+            />
+            <p className="text-xs text-muted-foreground">Shown on the contact section so visitors can email you.</p>
+          </div>
+
+          <div className="space-y-2">
             <Label htmlFor="github">GitHub URL</Label>
             <Input
               id="github"

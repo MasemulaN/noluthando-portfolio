@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, LogIn, LogOut } from "lucide-react";
+import { useAuth } from "@/hooks/use-auth";
+import { LoginDialog } from "./LoginDialog";
 
 const links = [
   { href: "#about", label: "About" },
@@ -11,6 +13,8 @@ const links = [
 export function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [loginOpen, setLoginOpen] = useState(false);
+  const { isAuthenticated, signOut } = useAuth();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 16);
@@ -18,6 +22,26 @@ export function Navbar() {
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  const authButton = isAuthenticated ? (
+    <button
+      onClick={() => signOut()}
+      className="inline-flex items-center gap-1.5 px-3 py-2 rounded-md border border-border text-sm text-muted-foreground hover:text-foreground transition"
+      aria-label="Sign out"
+    >
+      <LogOut size={14} />
+      Sign out
+    </button>
+  ) : (
+    <button
+      onClick={() => setLoginOpen(true)}
+      className="inline-flex items-center gap-1.5 px-3 py-2 rounded-md border border-border text-sm text-muted-foreground hover:text-foreground transition"
+      aria-label="Owner sign in"
+    >
+      <LogIn size={14} />
+      Sign in
+    </button>
+  );
 
   return (
     <header
@@ -42,12 +66,15 @@ export function Navbar() {
           ))}
         </ul>
 
-        <a
-          href="#contact"
-          className="hidden md:inline-flex items-center px-4 py-2 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:opacity-90 transition"
-        >
-          Get in touch
-        </a>
+        <div className="hidden md:flex items-center gap-3">
+          {authButton}
+          <a
+            href="#contact"
+            className="inline-flex items-center px-4 py-2 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:opacity-90 transition"
+          >
+            Get in touch
+          </a>
+        </div>
 
         <button
           onClick={() => setOpen((v) => !v)}
@@ -72,6 +99,7 @@ export function Navbar() {
                 </a>
               </li>
             ))}
+            <div onClick={() => setOpen(false)}>{authButton}</div>
             <a
               href="#contact"
               onClick={() => setOpen(false)}
@@ -82,6 +110,8 @@ export function Navbar() {
           </ul>
         </div>
       )}
+
+      <LoginDialog open={loginOpen} onOpenChange={setLoginOpen} />
     </header>
   );
 }
