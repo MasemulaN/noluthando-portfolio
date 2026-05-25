@@ -108,22 +108,6 @@ export function Contact() {
               <Linkedin size={16} /> LinkedIn
             </a>
           )}
-          <a
-            href="https://github.com/"
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-2 hover:text-primary transition"
-          >
-            <Github size={16} /> GitHub
-          </a>
-          <a
-            href="https://www.linkedin.com/"
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-2 hover:text-primary transition"
-          >
-            <Linkedin size={16} /> LinkedIn
-          </a>
           <span className="inline-flex items-center gap-2">
             <MapPin size={16} /> South Africa
           </span>
