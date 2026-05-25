@@ -54,12 +54,6 @@ export function Hero() {
                 View my work
                 <ArrowRight size={16} className="group-hover:translate-x-0.5 transition-transform" />
               </a>
-              <a
-                href="/cv-noluthando-masemula.pdf"
-                download
-                className="hidden"
-                aria-hidden
-              />
               <button
                 onClick={() => setEditing(true)}
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md border border-border bg-card/50 hover:bg-card transition font-medium"
