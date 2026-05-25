@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { useProfile, type ProfileData } from "@/hooks/use-profile";
+import { useProfile, uploadProfilePhoto, type ProfileData } from "@/hooks/use-profile";
 import { toast } from "sonner";
 
 type Props = {
@@ -23,26 +23,39 @@ type Props = {
 export function EditProfileDialog({ open, onOpenChange }: Props) {
   const { profile, update, reset } = useProfile();
   const [draft, setDraft] = useState<ProfileData>(profile);
+  const [uploading, setUploading] = useState(false);
+  const [saving, setSaving] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (open) setDraft(profile);
   }, [open, profile]);
 
-  const onPhoto = (file: File) => {
+  const onPhoto = async (file: File) => {
     if (file.size > 3 * 1024 * 1024) {
       toast.error("Image must be under 3MB");
       return;
     }
-    const reader = new FileReader();
-    reader.onload = () => setDraft((d) => ({ ...d, photo: String(reader.result) }));
-    reader.readAsDataURL(file);
+    setUploading(true);
+    try {
+      const url = await uploadProfilePhoto(file);
+      setDraft((d) => ({ ...d, photo: url }));
+    } catch {
+      toast.error("Upload failed");
+    } finally {
+      setUploading(false);
+    }
   };
 
-  const save = () => {
-    update(draft);
-    toast.success("Profile updated");
-    onOpenChange(false);
+  const save = async () => {
+    setSaving(true);
+    try {
+      await update(draft);
+      toast.success("Profile updated");
+      onOpenChange(false);
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -51,7 +64,7 @@ export function EditProfileDialog({ open, onOpenChange }: Props) {
         <DialogHeader>
           <DialogTitle>Edit profile</DialogTitle>
           <DialogDescription>
-            Update your photo, name, and bio. Changes are saved to this browser.
+            Update your photo, name, bio, and social links. Changes are saved to the cloud.
           </DialogDescription>
         </DialogHeader>
 
@@ -78,10 +91,11 @@ export function EditProfileDialog({ open, onOpenChange }: Props) {
                 type="button"
                 variant="outline"
                 size="sm"
+                disabled={uploading}
                 onClick={() => fileRef.current?.click()}
               >
                 <Upload size={14} />
-                Upload photo
+                {uploading ? "Uploading…" : "Upload photo"}
               </Button>
               <p className="text-xs text-muted-foreground">PNG or JPG, up to 3MB.</p>
             </div>
@@ -124,15 +138,37 @@ export function EditProfileDialog({ open, onOpenChange }: Props) {
               onChange={(e) => setDraft({ ...draft, bio: e.target.value })}
             />
           </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="github">GitHub URL</Label>
+            <Input
+              id="github"
+              type="url"
+              placeholder="https://github.com/yourname"
+              value={draft.githubUrl}
+              onChange={(e) => setDraft({ ...draft, githubUrl: e.target.value })}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="linkedin">LinkedIn URL</Label>
+            <Input
+              id="linkedin"
+              type="url"
+              placeholder="https://www.linkedin.com/in/yourname"
+              value={draft.linkedinUrl}
+              onChange={(e) => setDraft({ ...draft, linkedinUrl: e.target.value })}
+            />
+          </div>
         </div>
 
         <DialogFooter className="gap-2 sm:gap-2">
           <Button
             type="button"
             variant="ghost"
-            onClick={() => {
+            onClick={async () => {
               if (confirm("Reset profile to defaults?")) {
-                reset();
+                await reset();
                 onOpenChange(false);
               }
             }}
@@ -144,8 +180,8 @@ export function EditProfileDialog({ open, onOpenChange }: Props) {
           <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
             Cancel
           </Button>
-          <Button type="button" onClick={save}>
-            Save changes
+          <Button type="button" onClick={save} disabled={uploading || saving}>
+            {saving ? "Saving…" : "Save changes"}
           </Button>
         </DialogFooter>
       </DialogContent>
