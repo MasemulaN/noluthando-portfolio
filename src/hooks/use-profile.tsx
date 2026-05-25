@@ -11,6 +11,7 @@ export type ProfileData = {
   photo: string;
   githubUrl: string;
   linkedinUrl: string;
+  email: string;
 };
 
 const DEFAULTS: ProfileData = {
@@ -22,6 +23,7 @@ const DEFAULTS: ProfileData = {
   photo: defaultPhoto,
   githubUrl: "https://github.com/",
   linkedinUrl: "https://www.linkedin.com/",
+  email: "",
 };
 
 type Row = {
@@ -33,6 +35,7 @@ type Row = {
   photo_url: string | null;
   github_url: string | null;
   linkedin_url: string | null;
+  email: string | null;
 };
 
 const fromRow = (r: Row): ProfileData => ({
@@ -43,6 +46,7 @@ const fromRow = (r: Row): ProfileData => ({
   photo: r.photo_url || DEFAULTS.photo,
   githubUrl: r.github_url || DEFAULTS.githubUrl,
   linkedinUrl: r.linkedin_url || DEFAULTS.linkedinUrl,
+  email: r.email || "",
 });
 
 type Ctx = {
@@ -83,6 +87,7 @@ export function ProfileProvider({ children }: { children: ReactNode }) {
         photo_url: next.photo,
         github_url: next.githubUrl,
         linkedin_url: next.linkedinUrl,
+        email: next.email || null,
       })
       .eq("id", "me");
     if (error) toast.error("Failed to save profile");

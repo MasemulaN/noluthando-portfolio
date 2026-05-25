@@ -7,6 +7,7 @@ import { Projects } from "@/components/portfolio/Projects";
 import { Contact, Footer } from "@/components/portfolio/Contact";
 import { ProfileProvider } from "@/hooks/use-profile";
 import { ProjectsProvider } from "@/hooks/use-projects";
+import { AuthProvider } from "@/hooks/use-auth";
 import { Toaster } from "@/components/ui/sonner";
 
 export const Route = createFileRoute("/")({
@@ -30,19 +31,21 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <ProfileProvider>
-      <ProjectsProvider>
-        <main className="min-h-screen bg-background text-foreground antialiased">
-          <Navbar />
-          <Hero />
-          <About />
-          <Skills />
-          <Projects />
-          <Contact />
-          <Footer />
-          <Toaster />
-        </main>
-      </ProjectsProvider>
-    </ProfileProvider>
+    <AuthProvider>
+      <ProfileProvider>
+        <ProjectsProvider>
+          <main className="min-h-screen bg-background text-foreground antialiased">
+            <Navbar />
+            <Hero />
+            <About />
+            <Skills />
+            <Projects />
+            <Contact />
+            <Footer />
+            <Toaster />
+          </main>
+        </ProjectsProvider>
+      </ProfileProvider>
+    </AuthProvider>
   );
 }
