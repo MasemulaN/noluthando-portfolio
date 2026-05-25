@@ -1,4 +1,4 @@
-import { ArrowRight, Download, Github, Linkedin, Pencil } from "lucide-react";
+import { ArrowRight, Github, Linkedin, Pencil } from "lucide-react";
 import { useState } from "react";
 import { useProfile } from "@/hooks/use-profile";
 import { EditProfileDialog } from "./EditProfileDialog";
