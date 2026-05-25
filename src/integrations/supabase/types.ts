@@ -14,6 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
+      profile: {
+        Row: {
+          bio: string
+          created_at: string
+          github_url: string | null
+          id: string
+          linkedin_url: string | null
+          name: string
+          photo_url: string | null
+          tagline: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          bio?: string
+          created_at?: string
+          github_url?: string | null
+          id?: string
+          linkedin_url?: string | null
+          name?: string
+          photo_url?: string | null
+          tagline?: string
+          title?: string
+          updated_at?: string
+        }
+        Update: {
+          bio?: string
+          created_at?: string
+          github_url?: string | null
+          id?: string
+          linkedin_url?: string | null
+          name?: string
+          photo_url?: string | null
+          tagline?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       projects: {
         Row: {
           case_study: string | null
