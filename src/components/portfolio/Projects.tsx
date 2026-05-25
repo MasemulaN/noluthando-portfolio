@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { Plus } from "lucide-react";
 import { useProjects, type StoredProject } from "@/hooks/use-projects";
+import { useAuth } from "@/hooks/use-auth";
 import { ProjectCard } from "./ProjectCard";
 import { EditProjectDialog } from "./EditProjectDialog";
 import { Button } from "@/components/ui/button";
 
 export function Projects() {
   const { projects, loading, remove } = useProjects();
+  const { isAuthenticated } = useAuth();
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<StoredProject | null>(null);
 
@@ -33,16 +35,18 @@ export function Projects() {
             Things I've been building
           </h2>
           <p className="mt-3 text-muted-foreground max-w-xl mx-auto">
-            Upload your own projects — add a title, description, tech stack, links, and a cover
-            image. Saved permanently to your portfolio.
+            A selection of projects I've been building. Sign in as the owner to add, edit, or
+            remove projects.
           </p>
 
-          <div className="mt-6 flex items-center justify-center gap-2">
-            <Button onClick={openAdd}>
-              <Plus size={16} />
-              Add project
-            </Button>
-          </div>
+          {isAuthenticated && (
+            <div className="mt-6 flex items-center justify-center gap-2">
+              <Button onClick={openAdd}>
+                <Plus size={16} />
+                Add project
+              </Button>
+            </div>
+          )}
         </div>
 
         {loading ? (
@@ -50,15 +54,22 @@ export function Projects() {
         ) : projects.length === 0 ? (
           <div className="text-center py-16 border border-dashed border-border rounded-xl">
             <p className="text-muted-foreground mb-4">No projects yet.</p>
-            <Button onClick={openAdd}>
-              <Plus size={16} />
-              Add your first project
-            </Button>
+            {isAuthenticated && (
+              <Button onClick={openAdd}>
+                <Plus size={16} />
+                Add your first project
+              </Button>
+            )}
           </div>
         ) : (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {projects.map((p) => (
-              <ProjectCard key={p.id} project={p} onEdit={openEdit} onDelete={onDelete} />
+              <ProjectCard
+                key={p.id}
+                project={p}
+                onEdit={isAuthenticated ? openEdit : undefined}
+                onDelete={isAuthenticated ? onDelete : undefined}
+              />
             ))}
           </div>
         )}

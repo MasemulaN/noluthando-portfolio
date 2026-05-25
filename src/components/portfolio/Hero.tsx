@@ -1,10 +1,12 @@
 import { ArrowRight, Github, Linkedin, Pencil } from "lucide-react";
 import { useState } from "react";
 import { useProfile } from "@/hooks/use-profile";
+import { useAuth } from "@/hooks/use-auth";
 import { EditProfileDialog } from "./EditProfileDialog";
 
 export function Hero() {
   const { profile } = useProfile();
+  const { isAuthenticated } = useAuth();
   const [editing, setEditing] = useState(false);
 
   return (
@@ -25,13 +27,15 @@ export function Hero() {
               height={192}
               className="relative w-40 h-40 md:w-48 md:h-48 rounded-full object-cover border-2 border-border shadow-card"
             />
-            <button
-              onClick={() => setEditing(true)}
-              aria-label="Edit profile"
-              className="absolute bottom-1 right-1 p-2 rounded-full bg-primary text-primary-foreground border border-background shadow-md hover:opacity-90 transition"
-            >
-              <Pencil size={14} />
-            </button>
+            {isAuthenticated && (
+              <button
+                onClick={() => setEditing(true)}
+                aria-label="Edit profile"
+                className="absolute bottom-1 right-1 p-2 rounded-full bg-primary text-primary-foreground border border-background shadow-md hover:opacity-90 transition"
+              >
+                <Pencil size={14} />
+              </button>
+            )}
           </div>
 
           <div className="text-center md:text-left">
@@ -54,13 +58,15 @@ export function Hero() {
                 View my work
                 <ArrowRight size={16} className="group-hover:translate-x-0.5 transition-transform" />
               </a>
-              <button
-                onClick={() => setEditing(true)}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md border border-border bg-card/50 hover:bg-card transition font-medium"
-              >
-                <Pencil size={16} />
-                Edit profile
-              </button>
+              {isAuthenticated && (
+                <button
+                  onClick={() => setEditing(true)}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md border border-border bg-card/50 hover:bg-card transition font-medium"
+                >
+                  <Pencil size={16} />
+                  Edit profile
+                </button>
+              )}
               {profile.githubUrl && (
                 <a
                   href={profile.githubUrl}
