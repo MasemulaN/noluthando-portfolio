@@ -1,4 +1,4 @@
-import { ArrowRight, Download, Github, Linkedin, Pencil } from "lucide-react";
+import { ArrowRight, Github, Linkedin, Pencil } from "lucide-react";
 import { useState } from "react";
 import { useProfile } from "@/hooks/use-profile";
 import { EditProfileDialog } from "./EditProfileDialog";
@@ -54,14 +54,6 @@ export function Hero() {
                 View my work
                 <ArrowRight size={16} className="group-hover:translate-x-0.5 transition-transform" />
               </a>
-              <a
-                href="/cv-noluthando-masemula.pdf"
-                download
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md border border-border bg-card/50 hover:bg-card transition font-medium"
-              >
-                <Download size={16} />
-                Download CV
-              </a>
               <button
                 onClick={() => setEditing(true)}
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md border border-border bg-card/50 hover:bg-card transition font-medium"
@@ -69,24 +61,28 @@ export function Hero() {
                 <Pencil size={16} />
                 Edit profile
               </button>
-              <a
-                href="https://github.com/"
-                target="_blank"
-                rel="noreferrer"
-                aria-label="GitHub"
-                className="p-2.5 rounded-md border border-border text-muted-foreground hover:text-primary hover:border-primary transition"
-              >
-                <Github size={18} />
-              </a>
-              <a
-                href="https://www.linkedin.com/"
-                target="_blank"
-                rel="noreferrer"
-                aria-label="LinkedIn"
-                className="p-2.5 rounded-md border border-border text-muted-foreground hover:text-primary hover:border-primary transition"
-              >
-                <Linkedin size={18} />
-              </a>
+              {profile.githubUrl && (
+                <a
+                  href={profile.githubUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="GitHub"
+                  className="p-2.5 rounded-md border border-border text-muted-foreground hover:text-primary hover:border-primary transition"
+                >
+                  <Github size={18} />
+                </a>
+              )}
+              {profile.linkedinUrl && (
+                <a
+                  href={profile.linkedinUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="LinkedIn"
+                  className="p-2.5 rounded-md border border-border text-muted-foreground hover:text-primary hover:border-primary transition"
+                >
+                  <Linkedin size={18} />
+                </a>
+              )}
             </div>
           </div>
         </div>
