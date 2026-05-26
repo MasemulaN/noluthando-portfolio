@@ -52,8 +52,10 @@ export function Navbar() {
       }`}
     >
       <nav className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-        <a href="#home" className="font-semibold tracking-tight text-foreground">
-          Noluthando<span className="text-primary">.</span>
+        <a href="#home" className="font-semibold tracking-tight">
+          <span className="bg-gradient-to-r from-[#4f46e5] via-[#06b6d4] to-[#22d3ee] bg-clip-text text-transparent">
+            Noluthando's Portfolio
+          </span>
         </a>
 
         <ul className="hidden md:flex items-center gap-8 text-sm text-muted-foreground">
