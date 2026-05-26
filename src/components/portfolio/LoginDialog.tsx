@@ -19,8 +19,7 @@ type Props = {
 };
 
 export function LoginDialog({ open, onOpenChange }: Props) {
-  const { signIn, signUp } = useAuth();
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
+  const { signIn } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
@@ -32,15 +31,13 @@ export function LoginDialog({ open, onOpenChange }: Props) {
       return;
     }
     setBusy(true);
-    const { error } = mode === "signin"
-      ? await signIn(email, password)
-      : await signUp(email, password);
+    const { error } = await signIn(email, password);
     setBusy(false);
     if (error) {
       toast.error(error);
       return;
     }
-    toast.success(mode === "signin" ? "Signed in" : "Account created");
+    toast.success("Signed in");
     setEmail("");
     setPassword("");
     onOpenChange(false);
@@ -50,9 +47,9 @@ export function LoginDialog({ open, onOpenChange }: Props) {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-sm">
         <DialogHeader>
-          <DialogTitle>{mode === "signin" ? "Owner sign in" : "Create owner account"}</DialogTitle>
+          <DialogTitle>Owner sign in</DialogTitle>
           <DialogDescription>
-            Only signed-in users can edit the profile or manage projects.
+            Only the owner can edit the profile or manage projects.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={submit} className="space-y-4">
@@ -71,24 +68,15 @@ export function LoginDialog({ open, onOpenChange }: Props) {
             <Input
               id="auth-password"
               type="password"
-              autoComplete={mode === "signin" ? "current-password" : "new-password"}
+              autoComplete="current-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <DialogFooter className="flex-col sm:flex-col gap-2 sm:gap-2">
+          <DialogFooter>
             <Button type="submit" disabled={busy} className="w-full">
-              {busy ? "Please wait…" : mode === "signin" ? "Sign in" : "Create account"}
+              {busy ? "Please wait…" : "Sign in"}
             </Button>
-            <button
-              type="button"
-              onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
-              className="text-xs text-muted-foreground hover:text-foreground"
-            >
-              {mode === "signin"
-                ? "First time? Create the owner account"
-                : "Already have an account? Sign in"}
-            </button>
           </DialogFooter>
         </form>
       </DialogContent>
